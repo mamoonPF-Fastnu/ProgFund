@@ -1,9 +1,0 @@
-Start
-Input N
-Set i=N 
-Print i
-Decrease i by 1
-Repeat Step 4 and Step 5 (till or while) i>=1
-Stop
-
-
