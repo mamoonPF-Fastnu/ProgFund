@@ -1,9 +1,0 @@
-Start
-Input N
-i=N
-While i>=1 
-     print i 
-     i <=== i-1
-End while
-
-Stop
