@@ -1,0 +1,20 @@
+Start
+
+Input number
+
+While number has more than one digit
+
+    sum = 0
+
+    While number > 0
+        digit = number % 10
+        sum = sum + digit
+        number = number / 10
+    End while
+
+    Print sum
+    number = sum
+
+End while
+
+Stop

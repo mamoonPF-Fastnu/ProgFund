@@ -1,0 +1,8 @@
+Start
+Set the first table number to 1
+Check whether the table number is a multiple of 3
+If it is a multiple of 3, skip that table
+Otherwise, print its multiplication table from 1 to 10
+Move to the next table number
+Repeat steps 3 to 6 until table number multiple 10 is reached
+Stop

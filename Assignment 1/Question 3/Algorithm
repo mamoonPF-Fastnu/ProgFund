@@ -1,0 +1,13 @@
+Start
+Input a number
+If the number is 0, set the count to 1
+Otherwise, set the digit count to 0
+Divide the number by 10
+Increase the digit count by 1
+Repeat steps 5–6 until the number becomes 0
+Display the number of digits (count)
+If the digit count is 1, print single-digit number
+If the digit count is 2, print double-digit number
+If the digit count is 3, print triple-digit number
+If the digit count is greater than 3, print four-digit or more number
+Stop.

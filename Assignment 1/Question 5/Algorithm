@@ -1,0 +1,12 @@
+Start
+Input a number
+If the number has only one digit, stop
+Otherwise, set the sum to zero
+Take the last digit of the number
+Add that digit to the sum
+Remove the last digit from the number
+Repeat steps 5–7 until there are no digits left
+Display the sum.
+Make the sum the new number.
+Repeat from step 3 until the number has only one digit.
+Stop.

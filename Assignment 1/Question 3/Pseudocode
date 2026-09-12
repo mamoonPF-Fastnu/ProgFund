@@ -1,0 +1,23 @@
+Start
+
+Input number
+count = 0
+
+While number > 0
+    number = number / 10
+    count = count + 1
+End while
+
+Print Number of digits = count
+
+If count = 1 
+    Print "Single-digit number"
+Else if count = 2 
+    Print "Double-digit number"
+Else if count = 3 
+    Print "Triple-digit number"
+Else
+    Print "Four-digit or more number"
+End if
+
+Stop

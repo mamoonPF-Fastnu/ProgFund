@@ -1,0 +1,15 @@
+Start
+
+For i = 1 to 10
+
+    If i is not divisible by 3 then
+
+        For j = 1 to 10
+            Print i × j
+        end for
+
+    end if
+
+end for
+
+Stop

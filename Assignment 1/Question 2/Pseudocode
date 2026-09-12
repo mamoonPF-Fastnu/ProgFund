@@ -1,0 +1,10 @@
+Start
+Input Year
+
+If (Year is divisible by 4 AND Year is not divisible by 100 OR Year is divisible by 400)
+    Print "Leap Year"
+Else
+    Print "Not a Leap Year"
+end if
+
+Stop

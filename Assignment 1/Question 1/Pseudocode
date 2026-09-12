@@ -1,0 +1,10 @@
+Start
+Input N 
+i=N 
+
+while i>=1
+    Print i
+    i<===i-1
+end while 
+
+Stop

@@ -1,0 +1,11 @@
+Start
+Input the Year
+
+Check whether the Year is divisble by 4
+If it is divisible by 4, check whether it is not divisible by 100 or is divisible by 400.
+
+If these conditions are met, print "Leap Year".
+
+Otherwise, print "Not a Leap Year".
+
+Stop
