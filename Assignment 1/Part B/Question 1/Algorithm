@@ -1,0 +1,30 @@
+Start
+Input the number of guests N
+Set Hotel Revenue = 0
+Repeat the following steps for each guest from 1 to N
+
+Input season
+Input room type
+Input number of night
+
+If season is Peak:
+If room is Standard, set rate = 5000
+Else if room is Deluxe, set rate = 8000
+Else, set rate = 1200.
+
+Otherwise, if season is Off-Peak:
+If room is Standard, set rate = 3000
+Else if room is Deluxe, set rate = 5000
+Else, set rate = 8000
+
+Total Price = Rate × Nights
+
+If nights are greater than 7
+Calculate 15% discount
+Subtract the discount from total price
+
+Display the final price for the guest
+Add the final price to Hotel Revenue
+After all guests are processed, display Hotel Revenue
+
+Stop
