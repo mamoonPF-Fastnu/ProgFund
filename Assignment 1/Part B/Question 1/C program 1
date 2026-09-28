@@ -1,0 +1,93 @@
+#include <stdio.h>
+
+int main()
+{
+    int N, i, nights, rate, price, discount;
+    char season, roomType;
+    int HotelTotalRevenue = 0;
+
+    printf("Enter number of guests: ");
+    scanf("%d", &N);
+
+    for (i = 1; i <= N; i++)
+    {
+        printf("\nGuest %d\n", i);
+
+        printf("Enter Season (P = Peak, O = Off-Peak): ");
+        scanf(" %c", &season);
+
+        printf("Enter Room Type (S = Standard, D = Deluxe, U = Suite): ");
+        scanf(" %c", &roomType);
+
+        printf("Enter number of nights: ");
+        scanf("%d", &nights);
+
+        /* Nested switch statements logic*/
+        if (season == 'P')
+        {
+            switch (roomType)
+            {
+                case 'S':
+                    rate = 5000;
+                    break;
+
+                case 'D':
+                    rate = 8000;
+                    break;
+
+                case 'U':
+                    rate = 12000;
+                    break;
+
+                default:
+                    printf("Invalid room type.\n");
+                    continue;
+            }
+        }
+        else if (season == 'O')
+        {
+            switch (roomType)
+            {
+                case 'S':
+                    rate = 3000;
+                    break;
+
+                case 'D':
+                    rate = 5000;
+                    break;
+
+                case 'U':
+                    rate = 8000;
+                    break;
+
+                default:
+                    printf("Invalid room type.\n");
+                    continue;
+            }
+        }
+        else
+        {
+            printf("Invalid season.\n");
+            continue;
+        }
+
+        /* Calculate price */
+        price = rate * nights;
+
+        /* Apply 15% discount if nights > 7 */
+        if (nights > 7)
+        {
+            discount = price * 15 / 100;
+            price = price - discount;
+        }
+
+        printf("Final Price = Rs. %d\n", price);
+
+        /* Add guest price to hotel revenue */
+        HotelTotalRevenue = HotelTotalRevenue + price;
+    }
+  
+    printf("Hotel Total Revenue = Rs. %d\n", HotelTotalRevenue);
+  
+    return 0;
+}
