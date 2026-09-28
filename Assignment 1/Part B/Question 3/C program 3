@@ -1,0 +1,55 @@
+#include <stdio.h>
+
+int main()
+{
+    int N, i, j, mark, sum;
+    float average;
+
+    printf("Enter number of students: ");
+    scanf("%d", &N);
+
+    for (i = 1; i <= N; i++)
+    {
+        sum = 0;
+        int subjectDeficiency = 0;
+
+        printf("\nStudent %d\n", i);
+
+        for (j = 1; j <= 5; j++)
+        {
+            printf("Enter mark for subject %d: ", j);
+            scanf("%d", &mark);
+
+            sum = sum + mark;
+
+            if (mark < 33)
+            {
+                subjectDeficiency = Y;           // Y for Yes & N for No
+            }
+        }
+
+        average = sum / 5.0;
+
+        printf("Total Marks = %d\n", sum);
+        printf("Average = %.2f\n", average);
+
+        if (subjectDeficiency == Y)
+        {
+            printf("Result: Fail - Subject Deficiency\n");
+        }
+        else if (average >= 80)
+        {
+            printf("Result: Distinction\n");
+        }
+        else if (average >= 60)
+        {
+            printf("Result: Pass\n");
+        }
+        else
+        {
+            printf("Result: Fail\n");
+        }
+    }
+
+    return 0;
+}
