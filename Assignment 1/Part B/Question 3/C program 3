@@ -8,7 +8,7 @@ int main()
     printf("Enter number of students: ");
     scanf("%d", &N);
 
-i=1
+i=1;
 while(i<=N)
     {
         sum = 0;
@@ -16,19 +16,29 @@ while(i<=N)
 
         printf("\nStudent %d\n", i);
 
-      j=1 
+      j=1;
     while(j<=5)
         {
-            printf("Enter mark for subject %d: ", j);
+           while(1)
+           {
+            printf("Enter mark for subject %d: ", j);   // Out of 100
             scanf("%d", &mark);
+            if (mark<=100 )
+               
+                 if (mark>=0)
+			
+                break;
+
+            printf("Invalid marks out of 100 for subject %d\n",j);
+             }
 
             sum = sum + mark;
 
             if (mark < 33)
             {
-                subjectDeficiency = Y;           // Y for Yes & N for No
+                subjectDeficiency = 'Y';           // Y for Yes & N for No
             }
-       j++
+       j++;
         }
 
         average = sum / 5.0;
@@ -36,7 +46,7 @@ while(i<=N)
         printf("Total Marks = %d\n", sum);
         printf("Average = %.2f\n", average);
 
-        if (subjectDeficiency == Y)
+        if (subjectDeficiency == 'Y')
         {
             printf("Result: Fail - Subject Deficiency\n");
         }
@@ -52,7 +62,7 @@ while(i<=N)
         {
             printf("Result: Fail\n");
         }
-i++
+i++;
     }
 
     return 0;
