@@ -140,7 +140,6 @@ int main()
                         occupiedC += 2;
                         accepted++;
                         vans++;
-                        valid = 1;
 
                         printf("Emergency student van redirected to Zone C.\n");
                         printf("Remaining Zone C capacity: %d\n",capacityC - occupiedC);
@@ -164,8 +163,7 @@ int main()
                             bikes++;
 
                         printf("Emergency vehicle assigned to Zone B.\n");
-                        printf("Remaining Zone B capacity: %d\n",
-                               capacityB - occupiedB);
+                        printf("Remaining Zone B capacity: %d\n", capacityB - occupiedB);
                     }
                     else
                     {
@@ -183,11 +181,9 @@ int main()
                         occupiedC += 2;
                         accepted++;
                         vans++;
-                        valid = 1;
 
                         printf("Emergency visitor van assigned to Zone C.\n");
-                        printf("Remaining Zone C capacity: %d\n",
-                               capacityC - occupiedC);
+                        printf("Remaining Zone C capacity: %d\n",capacityC - occupiedC);
                     }
                     else
                     {
@@ -237,11 +233,9 @@ int main()
                     occupiedA += 2;
                     accepted++;
                     vans++;
-                    valid = 1;
 
                     printf("Assigned to Zone A.\n");
-                    printf("Remaining Zone A capacity: %d\n",
-                           capacityA - occupiedA);
+                    printf("Remaining Zone A capacity: %d\n",capacityA - occupiedA);
                 }
                 else
                 {
@@ -261,11 +255,8 @@ int main()
                     else
                         bikes++;
 
-                    valid = 1;
-
                     printf("Assigned to Zone A.\n");
-                    printf("Remaining Zone A capacity: %d\n",
-                           capacityA - occupiedA);
+                    printf("Remaining Zone A capacity: %d\n",capacityA - occupiedA);
                 }
                 else
                 {
@@ -286,11 +277,9 @@ int main()
                     occupiedC += 2;
                     accepted++;
                     vans++;
-                    valid = 1;
 
                     printf("Student van redirected to Zone C.\n");
-                    printf("Remaining Zone C capacity: %d\n",
-                           capacityC - occupiedC);
+                    printf("Remaining Zone C capacity: %d\n", capacityC - occupiedC);
                 }
                 else
                 {
@@ -310,11 +299,8 @@ int main()
                     else
                         bikes++;
 
-                    valid = 1;
-
                     printf("Assigned to Zone B.\n");
-                    printf("Remaining Zone B capacity: %d\n",
-                           capacityB - occupiedB);
+                    printf("Remaining Zone B capacity: %d\n",capacityB - occupiedB);
                 }
                 else
                 {
@@ -335,7 +321,6 @@ int main()
                     occupiedC += 2;
                     accepted++;
                     vans++;
-                    valid = 1;
 
                     printf("Assigned to Zone C.\n");
                     printf("Remaining Zone C capacity: %d\n",
@@ -360,8 +345,7 @@ int main()
                         bikes++;
 
                     printf("Assigned to Zone C.\n");
-                    printf("Remaining Zone C capacity: %d\n",
-                           capacityC - occupiedC);
+                    printf("Remaining Zone C capacity: %d\n",capacityC - occupiedC);
                 }
                 else
                 {
@@ -420,9 +404,7 @@ int main()
     }
 
     // Entire campus is full 
-    if (occupiedA == capacityA &&
-        occupiedB == capacityB &&
-        occupiedC == capacityC)
+    if (occupiedA == capacityA && occupiedB == capacityB && occupiedC == capacityC)
     {
         printf("Entire campus parking facility is Full:(.\n");
     }
