@@ -220,7 +220,7 @@ int main()
         }
 
         // NON-EMERGENCY VEHICLE AND NO PERMIT.....
-        else if (permit == 'N')
+        else if ((permit == 'N')&&(emergency == 'Y'))
         {
             printf("Rejected: Invalid permit.\n");
             rejected++;
