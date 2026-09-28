@@ -1,0 +1,333 @@
+#include <stdio.h>
+
+int main()
+{
+    char vehicle, membership, disabled, station;
+    int battery, requiredLevel;
+    int parkingHours, currentTime;
+    
+    int requiredCharging;
+    int priority;
+    
+    float chargingRate;
+    float chargingCost;
+    float parkingCost;
+    float discount = 0;
+    float finalAmount;
+    
+    float chargingDiscount = 0;
+    float parkingDiscount = 0;
+
+     // Input and its validations
+    // Validate vehicle type
+    while (1)
+    {
+        printf("Enter vehicle type (E=Electric, H=Hybrid): ");
+        scanf(" %c", &vehicle);
+
+        if (vehicle == 'E' || vehicle == 'H')
+            break;
+
+        printf("Invalid vehicle type. Try again.\n");
+    }
+
+    // Validate battery level
+    while (1)
+    {
+        printf("Enter current battery level (0-100): ");
+        scanf("%d", &battery);
+
+        if (battery >= 0 && battery <= 100)
+            break;
+
+        printf("Invalid battery level. Try again.\n");
+    }
+
+    // Validate required charging level
+    while (1)
+    {
+        printf("Enter required charging level (0-100): ");
+        scanf("%d", &requiredLevel);
+
+        if (requiredLevel >= 0 && requiredLevel <= 100)
+            break;
+
+        printf("Invalid charging level. Try again.\n");
+    }
+
+    // Validate parking duration
+    while (1)
+    {
+        printf("Enter expected parking duration (hours): ");
+        scanf("%d", &parkingHours);
+
+        if (parkingHours >= 0)
+            break;
+
+        printf("Invalid parking duration. Try again.\n");
+    }
+
+    // Validate current time
+    while (1)
+    {
+        printf("Enter current time (0-23): ");
+        scanf("%d", &currentTime);
+
+        if (currentTime >= 0 && currentTime <= 23)
+            break;
+
+        printf("Invalid time. Try again.\n");
+    }
+
+    // Validate membership
+    while (1)
+    {
+        printf("Parking membership? (Y/N): ");
+        scanf(" %c", &membership);
+
+        if (membership == 'Y' || membership == 'N')
+            break;
+
+        printf("Invalid value. Try again.\n");
+    }
+
+    // Validate disabled priority
+    while (1)
+    {
+        printf("Disabled-person priority? (Y/N): ");
+        scanf(" %c", &disabled);
+
+        if (disabled == 'Y' || disabled == 'N')
+            break;
+
+        printf("Invalid value. Try again.\n");
+    }
+
+    // Validate charging station
+    while (1)
+    {
+        printf("Charging station available? (Y/N): ");
+        scanf(" %c", &station);
+
+        if (station == 'Y' || station == 'N')
+            break;
+
+        printf("Invalid value. Try again.\n");
+    }
+
+    // CHARGING STATION AVAILABILITY
+
+    if (station == 'N')
+    {
+        if (vehicle == 'H')
+        {
+            printf("\nCharging unavailable - Parking only.\n");
+        }
+        else
+        {
+            printf("\nNo charging slot available.\n");
+        }
+
+        return 0;
+    }
+
+    // VEHICLE ELIGIBILITY
+
+    if (vehicle == 'H' && battery >= 40)
+    {
+        printf("\nVehicle does not qualify for EV charging.\n");
+        return 0;
+    }
+  
+    // REQUIRED CHARGING
+
+    requiredCharging = requiredLevel - battery;
+
+    if (requiredCharging <= 0)
+    {
+        printf("\nNo charging required.\n");
+        
+        // Parking calculation can still be done
+        if (parkingHours <= 2)
+            parkingCost = 200;
+        else if (parkingHours <= 5)
+            parkingCost = 400;
+        else
+            parkingCost = 700;
+
+        if (disabled == 'Y')
+        {
+            parkingDiscount = parkingCost;
+             parkingCost = 0;
+        }
+        else if (membership == 'Y')
+        {
+            parkingDiscount = parkingCost * 0.20;
+            parkingCost = parkingCost - parkingDiscount;
+        }
+
+        finalAmount = parkingCost;
+
+        printf("\n========== BILL ==========\n");
+        printf("Vehicle Type          : %c\n", vehicle);
+        printf("Current Battery       : %d%%\n", battery);
+        printf("Required Charging     : %d%%\n", requiredLevel);
+        printf("Charging Cost         : Rs. 0.00\n");
+        printf("Parking Cost          : Rs. %.2f\n", parkingCost);
+        printf("Parking Discount      : Rs. %.2f\n", parkingDiscount);
+        printf("Final Payable Amount  : Rs. %.2f\n", finalAmount);
+
+        if (parkingHours > 8)
+            printf("Long-stay warning: Please relocate your vehicle after charging.\n");
+        else
+            printf("Standard parking duration.\n");
+
+        return 0;
+    }
+
+    // CHARGING PRIORITY
+
+    if (battery <= 15 && requiredLevel >= 80)
+    {
+        priority = 1;
+    }
+    else if (disabled == 'Y' || (membership == 'Y' && battery <= 30))
+    {
+        priority = 2;
+    }
+    else
+    {
+        priority = 3;
+    }
+  
+    // CHARGING RATE
+
+    // Off-peak: before 5 PM or after 10 PM
+    if (currentTime < 17 || currentTime > 22)
+    {
+        chargingRate = 35;
+
+        if (priority != 1 && membership == 'Y')
+        {
+            chargingDiscount = requiredCharging * chargingRate * 0.20;
+        }
+
+        printf("\nCharging Time: Off-Peak\n");
+    }
+    else
+    {
+        // Peak: 5 PM to 10 PM
+        chargingRate = 50;
+
+        if (priority != 1 && membership == 'Y')
+        {
+            chargingDiscount = requiredCharging * chargingRate * 0.10;
+        }
+
+        printf("\nCharging Time: Peak\n");
+    }
+
+    // CHARGING COST
+
+    chargingCost = requiredCharging * chargingRate;
+
+    chargingCost = chargingCost - chargingDiscount;
+
+    // PRIORITY DISPLAY
+
+    printf("\nCharging Priority: ");
+
+    if (priority == 1)
+    {
+        printf("Emergency Charging Priority\n");
+    }
+    else if (priority == 2)
+    {
+        printf("Priority Charging\n");
+    }
+    else
+    {
+        printf("Normal Charging\n");
+    }
+
+    // PARKING COST
+
+    if (parkingHours <= 2)
+    {
+        parkingCost = 200;
+    }
+    else if (parkingHours <= 5)
+    {
+        parkingCost = 400;
+    }
+    else
+    {
+        parkingCost = 700;
+    }
+
+    // PARKING DISCOUNT
+
+    if (disabled == 'Y')
+    {
+        parkingDiscount = parkingCost;
+        parkingCost = 0;
+    }
+    else if (membership == 'Y')
+    {
+        parkingDiscount = parkingCost * 0.20;
+        parkingCost = parkingCost - parkingDiscount;
+    }
+
+    // FINAL AMOUNT
+
+    finalAmount = chargingCost + parkingCost;
+
+    // FINAL BILL
+
+    printf("\n========================================\n");
+    printf("       SMART EV CHARGING BILL\n");
+    printf("========================================\n");
+
+    printf("Vehicle Type             : %c\n", vehicle);
+    printf("Current Battery          : %d%%\n", battery);
+    printf("Required Charging Level : %d%%\n", requiredLevel);
+    printf("Required Charging       : %d units\n", requiredCharging);
+
+    printf("Charging Priority        : ");
+
+    if (priority == 1)
+        printf("Emergency Charging Priority\n");
+    else if (priority == 2)
+        printf("Priority Charging\n");
+    else
+        printf("Normal Charging\n");
+
+    if (currentTime < 17 || currentTime > 22)
+        printf("Peak/Off-Peak            : Off-Peak\n");
+    else
+        printf("Peak/Off-Peak            : Peak\n");
+
+    printf("Charging Rate            : Rs. %.2f per unit\n", chargingRate);
+    printf("Charging Cost            : Rs. %.2f\n", chargingCost);
+    printf("Charging Discount        : Rs. %.2f\n", chargingDiscount);
+
+    printf("Parking Cost             : Rs. %.2f\n", parkingCost);
+    printf("Parking Discount         : Rs. %.2f\n", parkingDiscount);
+
+    printf("----------------------------------------\n");
+    printf("Final Payable Amount     : Rs. %.2f\n", finalAmount);
+    printf("----------------------------------------\n");
+
+    // PARKING WARNIN
+
+    if (parkingHours > 8)
+    {
+        printf("Long-stay warning: Please relocate your vehicle after charging.\n");
+    }
+    else
+    {
+        printf("Standard parking duration.\n");
+    }
+
+    return 0;
+}
