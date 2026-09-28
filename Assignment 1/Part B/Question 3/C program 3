@@ -8,14 +8,16 @@ int main()
     printf("Enter number of students: ");
     scanf("%d", &N);
 
-    for (i = 1; i <= N; i++)
+i=1
+while(i<=N)
     {
         sum = 0;
         int subjectDeficiency = 0;
 
         printf("\nStudent %d\n", i);
 
-        for (j = 1; j <= 5; j++)
+      j=1 
+    while(j<=5)
         {
             printf("Enter mark for subject %d: ", j);
             scanf("%d", &mark);
@@ -26,6 +28,7 @@ int main()
             {
                 subjectDeficiency = Y;           // Y for Yes & N for No
             }
+       j++
         }
 
         average = sum / 5.0;
@@ -49,6 +52,7 @@ int main()
         {
             printf("Result: Fail\n");
         }
+i++
     }
 
     return 0;
