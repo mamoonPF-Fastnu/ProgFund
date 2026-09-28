@@ -85,7 +85,6 @@ int main()
             emergency = 'N';
         }
 
-        valid = 0;
 
         //EMERGENCY VEHICLE
         if (emergency == 'Y')
