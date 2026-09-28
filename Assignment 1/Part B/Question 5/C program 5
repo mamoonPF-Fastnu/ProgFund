@@ -220,12 +220,13 @@ int main()
             }
         }
 
-        // NON-EMERGENCY VEHICLE
+        // NON-EMERGENCY VEHICLE AND NO PERMIT.....
         else if (permit == 'N')
         {
             printf("Rejected: Invalid permit.\n");
             rejected++;
         }
+//  NON EMERGENCY WITH PERMIT ---->
 
         //FACULTY WITH VALID PERMIT, NORMAL PARKING WITH PERMIT AND NO EMERGENCY
         else if (category == 'F')
