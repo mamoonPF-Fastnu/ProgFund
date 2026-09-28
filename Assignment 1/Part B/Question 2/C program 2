@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+int main()
+{
+    int N, i, request;
+    int currentFloor = 0;
+
+    printf("Enter number of floor requests: ");
+    scanf("%d", &N);
+
+    for (i = 1; i <= N; i++)
+    {
+        printf("Enter floor request %d: ", i);
+        scanf("%d", &request);
+
+        if (request > currentFloor)
+        {
+            printf("Moving Up\n");
+        }
+        else if (request < currentFloor)
+        {
+            printf("Moving Down\n");
+        }
+        else
+        {
+            printf("Doors Opening\n");
+        }
+
+        currentFloor = request;
+
+        printf("Current Floor: %d\n\n", currentFloor);
+    }
+
+    return 0;
+}
