@@ -1,0 +1,435 @@
+#include <stdio.h>
+
+int main()
+{
+    int N, i;
+
+    // Zone capacities 
+    int capacityA = 20;
+    int capacityB = 40;
+    int capacityC = 15;
+
+    // Occupied spaces 
+    int occupiedA = 0;
+    int occupiedB = 0;
+    int occupiedC = 0;
+
+    // Counters 
+    int accepted = 0;
+    int rejected = 0;
+    int cars = 0;
+    int bikes = 0;
+    int vans = 0;
+
+    char vehicle, category, permit, emergency;
+
+    printf("Enter number of vehicles: ");
+    scanf("%d", &N);
+
+    for (i = 1; i <= N; i++)
+    {
+        printf("\n========== Vehicle %d ==========\n", i);
+
+        // VALIDATE VEHICLE TYPE
+        while (1)
+        {
+            printf("Enter vehicle type (C=Car, B=Bike, V=Van): ");
+            scanf(" %c", &vehicle);
+
+            if (vehicle == 'C' || vehicle == 'B' || vehicle == 'V')
+                break;
+
+            printf("Invalid vehicle type. Try again.\n");
+        }
+
+        // VALIDATE USER CATEGORY
+        while (1)
+        {
+            printf("Enter category (F=Faculty, S=Student, G=Visitor): ");
+            scanf(" %c", &category);
+
+            if (category == 'F' || category == 'S' || category == 'G')
+                break;
+
+            printf("Invalid category. Try again.\n");
+        }
+
+        // VALIDATE PERMIT
+        while (1)
+        {
+            printf("Valid parking permit? (Y/N): ");
+            scanf(" %c", &permit);
+
+            if (permit == 'Y' || permit == 'N')
+                break;
+
+            printf("Invalid permit value. Try again.\n");
+        }
+
+        // Ask emergency only when permit is invalid 
+        if (permit == 'N')
+        {
+            while (1)
+            {
+                printf("Is this an emergency vehicle? (Y/N): ");
+                scanf(" %c", &emergency);
+
+                if (emergency == 'Y' || emergency == 'N')
+                    break;
+
+                printf("Invalid value. Try again.\n");
+            }
+        }
+        else
+        {
+            emergency = 'N';
+        }
+
+        valid = 0;
+
+        //EMERGENCY VEHICLE
+        if (emergency == 'Y')
+        {
+            if (category == 'F')
+            {
+                if (vehicle == 'V')
+                {
+                    if (capacityA - occupiedA >= 2)
+                    {
+                        occupiedA += 2;
+                        accepted++;
+                        vans++;
+
+                        printf("Emergency vehicle assigned to Zone A.\n");
+                        printf("Remaining Zone A capacity: %d\n", capacityA - occupiedA);
+                    }
+                    else
+                    {
+                        printf("Rejected: No space in Zone A for van.\n");
+                        rejected++;
+                    }
+                }
+                else
+                {
+                    if (capacityA - occupiedA >= 1)
+                    {
+                        occupiedA++;
+                        accepted++;
+
+                        if (vehicle == 'C')
+                            cars++;
+                        else
+                            bikes++;
+
+                        printf("Emergency vehicle assigned to Zone A.\n");
+                        printf("Remaining Zone A capacity: %d\n",capacityA - occupiedA);
+                    }
+                    else
+                    {
+                        printf("Rejected: No space in Zone A.\n");
+                        rejected++;
+                    }
+                }
+            }
+            else if (category == 'S')
+            {
+                if (vehicle == 'V')
+                {
+                    // Student van → Zone C 
+                    if (capacityC - occupiedC >= 2)
+                    {
+                        occupiedC += 2;
+                        accepted++;
+                        vans++;
+                        valid = 1;
+
+                        printf("Emergency student van redirected to Zone C.\n");
+                        printf("Remaining Zone C capacity: %d\n",capacityC - occupiedC);
+                    }
+                    else
+                    {
+                        printf("Rejected: No space in Zone C for van.\n");
+                        rejected++;
+                    }
+                }
+                else
+                {
+                    if (capacityB - occupiedB >= 1)
+                    {
+                        occupiedB++;
+                        accepted++;
+
+                        if (vehicle == 'C')
+                            cars++;
+                        else
+                            bikes++;
+
+                        printf("Emergency vehicle assigned to Zone B.\n");
+                        printf("Remaining Zone B capacity: %d\n",
+                               capacityB - occupiedB);
+                    }
+                    else
+                    {
+                        printf("Rejected: No space in Zone B.\n");
+                        rejected++;
+                    }
+                }
+            }
+            else if (category == 'G')
+            {
+                if (vehicle == 'V')
+                {
+                    if (capacityC - occupiedC >= 2)
+                    {
+                        occupiedC += 2;
+                        accepted++;
+                        vans++;
+                        valid = 1;
+
+                        printf("Emergency visitor van assigned to Zone C.\n");
+                        printf("Remaining Zone C capacity: %d\n",
+                               capacityC - occupiedC);
+                    }
+                    else
+                    {
+                        printf("Rejected: No space in Zone C for van.\n");
+                        rejected++;
+                    }
+                }
+                else
+                {
+                    if (capacityC - occupiedC >= 1)
+                    {
+                        occupiedC++;
+                        accepted++;
+
+                        if (vehicle == 'C')
+                            cars++;
+                        else
+                            bikes++;
+
+                        printf("Emergency visitor vehicle assigned to Zone C.\n");
+                        printf("Remaining Zone C capacity: %d\n", capacityC - occupiedC);
+                    }
+                    else
+                    {
+                        printf("Rejected: No space in Zone C.\n");
+                        rejected++;
+                    }
+                }
+            }
+        }
+
+        // NON-EMERGENCY VEHICLE
+        else if (permit == 'N')
+        {
+            printf("Rejected: Invalid permit.\n");
+            rejected++;
+        }
+
+        //FACULTY WITH VALID PERMIT, NORMAL PARKING WITH PERMIT AND NO EMERGENCY
+        else if (category == 'F')
+        {
+            if (vehicle == 'V')
+            {
+                if (capacityA - occupiedA >= 2)
+                {
+                    occupiedA += 2;
+                    accepted++;
+                    vans++;
+                    valid = 1;
+
+                    printf("Assigned to Zone A.\n");
+                    printf("Remaining Zone A capacity: %d\n",
+                           capacityA - occupiedA);
+                }
+                else
+                {
+                    printf("Rejected: No available space in Zone A for van.\n");
+                    rejected++;
+                }
+            }
+            else
+            {
+                if (capacityA - occupiedA >= 1)
+                {
+                    occupiedA++;
+                    accepted++;
+
+                    if (vehicle == 'C')
+                        cars++;
+                    else
+                        bikes++;
+
+                    valid = 1;
+
+                    printf("Assigned to Zone A.\n");
+                    printf("Remaining Zone A capacity: %d\n",
+                           capacityA - occupiedA);
+                }
+                else
+                {
+                    printf("Rejected: No available space in Zone A.\n");
+                    rejected++;
+                }
+            }
+        }
+
+        //STUDENT WITH VALID PERMIT,NORMAL PARKING .....
+        else if (category == 'S')
+        {
+            if (vehicle == 'V')
+            {
+                // Student van → Zone C
+                if (capacityC - occupiedC >= 2)
+                {
+                    occupiedC += 2;
+                    accepted++;
+                    vans++;
+                    valid = 1;
+
+                    printf("Student van redirected to Zone C.\n");
+                    printf("Remaining Zone C capacity: %d\n",
+                           capacityC - occupiedC);
+                }
+                else
+                {
+                    printf("Rejected: No space in Zone C for student van.\n");
+                    rejected++;
+                }
+            }
+            else
+            {
+                if (capacityB - occupiedB >= 1)
+                {
+                    occupiedB++;
+                    accepted++;
+
+                    if (vehicle == 'C')
+                        cars++;
+                    else
+                        bikes++;
+
+                    valid = 1;
+
+                    printf("Assigned to Zone B.\n");
+                    printf("Remaining Zone B capacity: %d\n",
+                           capacityB - occupiedB);
+                }
+                else
+                {
+                    printf("Rejected: No available space in Zone B.\n");
+                    rejected++;
+                }
+            }
+        }
+
+        //VISITOR WITH VALID PERMIT, Normal once more 
+        else if (category == 'G')
+        {
+            if (vehicle == 'V')
+            {
+                // Visitor van needs 2 spaces
+                if (capacityC - occupiedC >= 2)
+                {
+                    occupiedC += 2;
+                    accepted++;
+                    vans++;
+                    valid = 1;
+
+                    printf("Assigned to Zone C.\n");
+                    printf("Remaining Zone C capacity: %d\n",
+                           capacityC - occupiedC);
+                }
+                else
+                {
+                    printf("Rejected: Zone C does not have 2 spaces for van.\n");
+                    rejected++;
+                }
+            }
+            else
+            {
+                if (capacityC - occupiedC >= 1)
+                {
+                    occupiedC++;
+                    accepted++;
+
+                    if (vehicle == 'C')
+                        cars++;
+                    else
+                        bikes++;
+
+                    printf("Assigned to Zone C.\n");
+                    printf("Remaining Zone C capacity: %d\n",
+                           capacityC - occupiedC);
+                }
+                else
+                {
+                    printf("Rejected: No available space in Zone C.\n");
+                    rejected++;
+                }
+            }
+        }
+
+    //  FINAL PARKING SUMMARY  
+
+    printf("\n\n========================================\n");
+    printf("       SMART CAMPUS PARKING SUMMARY\n");
+    printf("========================================\n");
+
+    printf("Total vehicles processed : %d\n", N);
+    printf("Total accepted vehicles : %d\n", accepted);
+    printf("Total rejected vehicles : %d\n", rejected);
+
+    printf("\nSuccessfully Parked:\n");
+    printf("Cars  : %d\n", cars);
+    printf("Bikes : %d\n", bikes);
+    printf("Vans  : %d\n", vans);
+
+    printf("\nParking Zones:\n");
+
+    printf("Zone A - Faculty\n");
+    printf("Occupied          : %d\n", occupiedA);
+    printf("Remaining Capacity: %d\n",
+           capacityA - occupiedA);
+
+    printf("\nZone B - Students\n");
+    printf("Occupied          : %d\n", occupiedB);
+    printf("Remaining Capacity: %d\n",
+           capacityB - occupiedB);
+
+    printf("\nZone C - Visitors\n");
+    printf("Occupied          : %d\n", occupiedC);
+    printf("Remaining Capacity: %d\n",
+           capacityC - occupiedC);
+
+    // Highest occupancy
+    printf("\nHighest Occupancy: ");
+
+    if (occupiedA >= occupiedB && occupiedA >= occupiedC)
+    {
+        printf("Zone A (%d spaces occupied)\n", occupiedA);
+    }
+    else if (occupiedB >= occupiedA && occupiedB >= occupiedC)
+    {
+        printf("Zone B (%d spaces occupied)\n", occupiedB);
+    }
+    else
+    {
+        printf("Zone C (%d spaces occupied)\n", occupiedC);
+    }
+
+    // Entire campus is full 
+    if (occupiedA == capacityA &&
+        occupiedB == capacityB &&
+        occupiedC == capacityC)
+    {
+        printf("Entire campus parking facility is Full:(.\n");
+    }
+    else
+    {
+        printf("Entire campus parking facility is Not Full:).\n");
+    }
+
+    return 0;
+}
