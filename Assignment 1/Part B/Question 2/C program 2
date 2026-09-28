@@ -7,8 +7,9 @@ int main()
 
     printf("Enter number of floor requests: ");
     scanf("%d", &N);
-
-    for (i = 1; i <= N; i++)
+    
+   i=1;
+    while(i<= N)
     {
         printf("Enter floor request %d: ", i);
         scanf("%d", &request);
@@ -29,6 +30,7 @@ int main()
         currentFloor = request;
 
         printf("Current Floor: %d\n\n", currentFloor);
+        i++;
     }
 
     return 0;
