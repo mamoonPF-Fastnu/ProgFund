@@ -1,1 +1,29 @@
+#include <stdio.h>
 
+int main(){
+	int seats[100][100];
+	int row,column,i,j,k;
+	int total=0;available;
+	int middle,distance,row;
+	int count , start=-1;
+	int found=0 , booked_rows=-1;
+	
+	printf("Enter number rows and seats in each ");
+	scanf("&d &d",&row,&column);
+	
+	if(row<=0 || row>100 || column <=0 || column>100){
+		printf("Invalid Dimension");
+		return 0;
+	}
+	// Asking Input of Seats status
+	printf("Enter the srat status for each row");
+	printf("0=Available, 1=Booked");
+	
+	for(i=0;i<rows;i++){
+		printf("Row %d",i);
+		for(j=0;j<column;j++){
+			
+		}
+	}
+	 
+}
