@@ -3,7 +3,7 @@
 int main(){
 	int seats[100][100];
 	int row,column,i,j,k;
-	int total=0;available;
+	int total=0,available;
 	int middle,distance,row;
 	int count , start=-1;
 	int found=0 , booked_rows=-1;
@@ -19,11 +19,48 @@ int main(){
 	printf("Enter the srat status for each row");
 	printf("0=Available, 1=Booked");
 	
-	for(i=0;i<rows;i++){
+	for(i=0;i<row;i++){
 		printf("Row %d",i);
+		
 		for(j=0;j<column;j++){
+			scanf("%1d",&seats[i][j]);
 			
+			while(seats[i][j]!=0 && seats[i][j]!=1){
+				printf("Enter 0 or 1:")
+				scanf("%1d",&seats[i][j]);
+			}
+			if (seats == 0)
+				total++;
+			if (j>0)
+			printf("|");
+			
+			printf("%d",seats[i][j]);
 		}
+		printf("/n");
 	}
+	 //Displaying Seating Arrangements
+	 printf("Seating Arragement\n");
 	 
+	 for(i=0;i<row;i++){
+	 	printf("Row %d",row);
+	 	for(j=0;j<column;j++){
+	 		if(seats[i][j]==0)
+	 		printf("-");
+	 		else
+	 		printf("x");
+	 		
+	 		if(j<column-1)
+	 		printf("|");
+	 		
+		}
+		printf("\n");
+		 }
+		
+	 //Available seats 
+	 for(i=0;i<row;i++){
+	 	available==0;
+	 	for
+	 }
+	 
+	 }
 }
