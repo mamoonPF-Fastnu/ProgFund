@@ -1,4 +1,8 @@
-
+/**
+BS-AI 
+MAMOON AHMED 26K-0003
+ASSIGNMENT 02 --------> QUESTION 1
+*/
 #include <stdio.h>
 
 int main()
