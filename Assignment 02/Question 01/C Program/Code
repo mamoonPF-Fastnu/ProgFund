@@ -59,8 +59,80 @@ int main(){
 	 //Available seats 
 	 for(i=0;i<row;i++){
 	 	available==0;
-	 	for
+	 	for(j=0;j<column;j++){
+	 		if(seat[i][j]==0)
+	 			available++;
+	 		
+	 		printf("Row %d:Number of Seats Availabl:%d",i,avaiable);
+		 }
+		 
+	 }
+	 printf("Total Number of Seats:%d",total);
+	 //Input Group size
+	 printf("Enter Number of Customers:",%d);
+	 scanf("%d",&k);
+	 
+	 while(k<=0 || k>column){
+	 	printf("Enter Group size from 1 to %d",column);
+	 	scanf("%d",&k);
+	 }
+	 //search from inside(middle) to outerwards
+	 middle=rows/2;
+	 
+	 for(distance=0;distance<row;distance++){
+	 	// First,Smaller row beside middle row 
+	 	row=middle-distance
+	 	for(i=0;i<row;i++){
+	 		count=0;
+	 		for(j=0;j<column;j++){
+	 			if(seats[row][j]==0){
+	 				count++;
+	 			else 
+	 			    count=0;
+	 			if(count==k){
+	 				start=j-k+1
+	 				booked_row=row;
+	 				found=1
+	 				break;
+				 }
+	 			
+				 }
+			 }
+		 }
+		 // Now the larger row beside middle row
+		 row=middle+distance
+		 for(i=0;i<row;i++){
+		 	count=0;
+		 	for(j=0;j<column;j++){
+		 		if(seats[row][j]){
+		 			count++;
+		 		else
+		 		    count=0;
+		 		if(count==k){
+		 			start=j-k+1;
+		 			booked_row=row;
+		 			found=1;
+		 			break;
+				 }
+		 	
+				 }
+			 }
+		 }
+	 }
+	 if(found==1){
+	 	printf("Booking Successful!");
+	 	printf("Allocated Row:%d",booked_row);
+	 	printf("Allocated seats");
+	 	
+	 	for(j=start;j<start+k;j++){
+	 		printf("%d",&seats[booked_row][j]);
+	 		seats[booked_row][j]==1
+	 	total-=k;
+		 }
+		 ("Updated Seating Arrangement");
+		 
+		 for(i=0;i<row;i++):
+	 }
 	 }
 	 
-	 }
 }
