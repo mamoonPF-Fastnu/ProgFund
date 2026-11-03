@@ -1,4 +1,8 @@
-
+/**
+BS-AI 
+MAMOON AHMED 26K-0003
+ASSIGNMENT 02 --------> QUESTION 4
+*/
 #include <stdio.h>
 
 // Function 1: Input and validate festival days

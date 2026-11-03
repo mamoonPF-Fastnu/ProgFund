@@ -1,4 +1,8 @@
-
+/**
+BS-AI 
+MAMOON AHMED 26K-0003
+ASSIGNMENT 02 --------> QUESTION 3
+*/
 #include <stdio.h>
 
 #define MAX 100
