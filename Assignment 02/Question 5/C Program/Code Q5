@@ -1,1 +1,417 @@
 
+#include <stdio.h>
+#include <string.h>
+
+// Function 1: Display Menu
+void displayMenu()
+{
+    printf("\n========== UNIVERSITY LIBRARY ==========\n");
+    printf("1. Register Member\n");
+    printf("2. Display Available Books\n");
+    printf("3. Borrow a Book\n");
+    printf("4. Return a Book\n");
+    printf("5. Display Member Record\n");
+    printf("6. Exit\n");
+    printf("Enter your choice: ");
+}
+
+// Function 2: Register Member
+void registerMember(char name[], int *studentID, int *memberType)
+{
+    printf("\nEnter Member Name: ");
+    scanf(" %49[^\n]", name);
+
+    printf("Enter Student ID: ");
+    scanf("%d", studentID);
+
+    do
+    {
+        printf("\nSelect Membership Type:\n");
+        printf("1. Student\n");
+        printf("2. Faculty\n");
+        printf("Enter choice: ");
+        scanf("%d", memberType);
+
+        if (*memberType != 1 && *memberType != 2)
+        {
+            printf("Invalid membership type! Try again.\n");
+        }
+
+    } while (*memberType != 1 && *memberType != 2);
+
+    printf("\nRegistration Successful!\n");
+}
+
+// Function 3: Display Available Books
+void displayBooks(int bookIDs[], char bookTitles[][50],
+                  int availableCopies[], int totalBooks)
+{
+    printf("\n========== AVAILABLE BOOKS ==========\n");
+
+    printf("%-10s %-25s %-10s\n",
+           "Book ID", "Book Title", "Copies");
+
+    for (int i = 0; i < totalBooks; i++)
+    {
+        printf("%-10d %-25s %-10d\n",
+               bookIDs[i], bookTitles[i], availableCopies[i]);
+    }
+}
+
+// Function 4: Borrow Book
+void borrowBook(int bookIDs[], char bookTitles[][50],
+                int availableCopies[], int totalBooks,
+                int borrowedBookIDs[], int *borrowedCount,
+                int memberType)
+{
+    int id, days;
+    int found = -1;
+
+    printf("\nEnter Book ID: ");
+    scanf("%d", &id);
+
+    // Search for book
+    for (int i = 0; i < totalBooks; i++)
+    {
+        if (bookIDs[i] == id)
+        {
+            found = i;
+            break;
+        }
+    }
+
+    if (found == -1)
+    {
+        printf("Invalid Book ID!\n");
+        return;
+    }
+
+    if (availableCopies[found] <= 0)
+    {
+        printf("Book is not available!\n");
+        return;
+    }
+
+    if (*borrowedCount >= 3)
+    {
+        printf("You cannot borrow more than 3 books!\n");
+        return;
+    }
+
+    printf("Enter intended borrowing days: ");
+    scanf("%d", &days);
+
+    if (days <= 0)
+    {
+        printf("Days must be positive!\n");
+        return;
+    }
+
+    // Record borrowed book
+    borrowedBookIDs[*borrowedCount] = id;
+
+    (*borrowedCount)++;
+
+    // Decrease available copies
+    availableCopies[found]--;
+
+    printf("\nBook Borrowed Successfully!\n");
+    printf("Book Title: %s\n", bookTitles[found]);
+
+    if (memberType == 1)
+        printf("Permitted Days: 14\n");
+    else
+        printf("Permitted Days: 30\n");
+}
+
+// Function 5: Return Book
+float returnBook(int bookIDs[], int availableCopies[],
+                 int totalBooks, int borrowedBookIDs[],
+                 int *borrowedCount, int memberType,
+                 float *totalFine)
+{
+    int id, actualDays;
+    int found = -1;
+    int bookIndex = -1;
+    int allowedDays;
+
+    float fine = 0;
+    float payableFine;
+
+    char code[20];
+
+    printf("\nEnter Book ID to return: ");
+    scanf("%d", &id);
+
+    // Check whether member borrowed this book
+    for (int i = 0; i < *borrowedCount; i++)
+    {
+        if (borrowedBookIDs[i] == id)
+        {
+            found = i;
+            break;
+        }
+    }
+
+    if (found == -1)
+    {
+        printf("You have not borrowed this book!\n");
+        return 0;
+    }
+
+    // Find book in inventory
+    for (int i = 0; i < totalBooks; i++)
+    {
+        if (bookIDs[i] == id)
+        {
+            bookIndex = i;
+            break;
+        }
+    }
+
+    printf("Enter actual days kept: ");
+    scanf("%d", &actualDays);
+
+    if (actualDays <= 0)
+    {
+        printf("Days must be positive!\n");
+        return 0;
+    }
+
+    // Determine permitted days
+    if (memberType == 1)
+        allowedDays = 14;
+    else
+        allowedDays = 30;
+
+    // Calculate late fine
+    if (actualDays > allowedDays)
+    {
+        int extraDays = actualDays - allowedDays;
+
+        if (memberType == 1)
+            fine = extraDays * 20;
+        else
+            fine = extraDays * 10;
+
+        printf("\nLate Fine: Rs. %.2f\n", fine);
+
+        printf("Enter Membership Code: ");
+        scanf("%19s", code);
+
+        if (strcmp(code, "LIB2026") == 0)
+        {
+            payableFine = fine * 0.50;
+
+            printf("Correct Code! 50%% Waiver Applied.\n");
+        }
+        else
+        {
+            payableFine = fine;
+
+            printf("Incorrect Code! No Waiver Applied.\n");
+        }
+    }
+    else
+    {
+        payableFine = 0;
+        printf("\nBook returned within permitted days.\n");
+    }
+
+    // Update cumulative fines
+    *totalFine += fine;
+
+    // Increase available copies
+    availableCopies[bookIndex]++;
+
+    // Remove returned book from borrowing record
+    for (int i = found; i < *borrowedCount - 1; i++)
+    {
+        borrowedBookIDs[i] = borrowedBookIDs[i + 1];
+    }
+
+    (*borrowedCount)--;
+
+    printf("\nBook Returned Successfully!\n");
+    printf("Fine Before Waiver: Rs. %.2f\n", fine);
+    printf("Fine Payable: Rs. %.2f\n", payableFine);
+
+    return payableFine;
+}
+
+// Function 6: Display Member Record
+void displayMemberRecord(char name[], int studentID,
+                         int memberType, int borrowedBookIDs[],
+                         int borrowedCount, float totalFine,
+                         float fineAfterWaiver)
+{
+    printf("\n========== MEMBER RECORD ==========\n");
+
+    printf("Name: %s\n", name);
+    printf("Student ID: %d\n", studentID);
+
+    if (memberType == 1)
+        printf("Membership Type: Student\n");
+    else
+        printf("Membership Type: Faculty\n");
+
+    printf("\nCurrently Borrowed Books:\n");
+
+    if (borrowedCount == 0)
+    {
+        printf("No books currently borrowed.\n");
+    }
+    else
+    {
+        for (int i = 0; i < borrowedCount; i++)
+        {
+            printf("Book ID: %d\n", borrowedBookIDs[i]);
+        }
+    }
+
+    printf("\nTotal Fine Before Waiver: Rs. %.2f\n", totalFine);
+
+    printf("Final Fine Payable: Rs. %.2f\n", fineAfterWaiver);
+}
+
+// Function 7: Main Function
+int main()
+{
+    // Book Inventory
+    int bookIDs[5] = {101, 102, 103, 104, 105};
+
+    char bookTitles[5][50] = {
+        "Programming in C",
+        "Data Structures",
+        "Database Systems",
+        "Artificial Intelligence",
+        "Computer Networks"
+    };
+
+    int availableCopies[5] = {5, 4, 3, 2, 6};
+
+    int totalBooks = 5;
+
+    // Member Details
+    char name[50] = "";
+    int studentID = 0;
+    int memberType = 0;
+
+    // Borrowing Records
+    int borrowedBookIDs[3];
+    int borrowedCount = 0;
+
+    // Fine Records
+    float totalFine = 0;
+    float fineAfterWaiver = 0;
+
+    int choice;
+    int registered = 0;
+
+    do
+    {
+        displayMenu();
+
+        if (scanf("%d", &choice) != 1)
+        {
+            printf("Invalid input! Enter a number.\n");
+
+            int ch;
+            while ((ch = getchar()) != '\n' && ch != EOF)
+            {
+                // Clear invalid input
+            }
+
+            choice = 0;
+            continue;
+        }
+
+        switch (choice)
+        {
+            case 1:
+
+                if (registered == 1)
+                {
+                    printf("\nMember already registered!\n");
+                }
+                else
+                {
+                    registerMember(name, &studentID, &memberType);
+                    registered = 1;
+                }
+
+                break;
+
+            case 2:
+
+                displayBooks(bookIDs, bookTitles,
+                             availableCopies, totalBooks);
+
+                break;
+
+            case 3:
+
+                if (registered == 1)
+                {
+                    borrowBook(bookIDs, bookTitles,
+                               availableCopies, totalBooks,
+                               borrowedBookIDs, &borrowedCount,
+                               memberType);
+                }
+                else
+                {
+                    printf("Please register first!\n");
+                }
+
+                break;
+
+            case 4:
+
+                if (registered == 1)
+                {
+                    fineAfterWaiver += returnBook(
+                        bookIDs, availableCopies, totalBooks,
+                        borrowedBookIDs, &borrowedCount,
+                        memberType, &totalFine
+                    );
+                }
+                else
+                {
+                    printf("Please register first!\n");
+                }
+
+                break;
+
+            case 5:
+
+                if (registered == 1)
+                {
+                    displayMemberRecord(
+                        name, studentID, memberType,
+                        borrowedBookIDs, borrowedCount,
+                        totalFine, fineAfterWaiver
+                    );
+                }
+                else
+                {
+                    printf("Please register first!\n");
+                }
+
+                break;
+
+            case 6:
+
+                printf("\nThank you for using the Library System!\n");
+
+                break;
+
+            default:
+
+                printf("\nInvalid Menu Choice!\n");
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
+
