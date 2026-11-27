@@ -1,1 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
 
+// allocating a N x N grid dynamically using double pointers(int **)
+int** allocateGrind(int N){
+    int** grid=(int **)malloc(N*sizeof(int *));
+    if(grid==NULL)
+}
