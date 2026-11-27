@@ -4,5 +4,17 @@
 // allocating a N x N grid dynamically using double pointers(int **)
 int** allocateGrind(int N){
     int** grid=(int **)malloc(N*sizeof(int *));
-    if(grid==NULL)
+    if(grid==NULL){
+        fprintf(stderr,"Error:Memory Allocations failed for row pointers.\n");
+        exit(1);
+    }
+    return grid;
 }
+// freeing 2D arry memory using double pointers(int**)
+void freeGrid(int **grid,int N){
+    if(grid==NULL) return;
+    for(int i=0;i<N;i++){//freeing starting element of each row which are actually (pointer in array) for the strings , char arrays
+        free(grid[i]);
+    }
+}
+
