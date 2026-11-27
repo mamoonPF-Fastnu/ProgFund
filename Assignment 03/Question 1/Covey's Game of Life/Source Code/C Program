@@ -17,4 +17,21 @@ void freeGrid(int **grid,int N){
         free(grid[i]);
     }
 }
+// lets count the 8 cnnected live surrounding neighbour cells
+int countLiveNeighbours(int **grid,int N,int r,int c){
+    int count=0;
+    for(int dr=-1;dr<=1;dr++){
+        for(int dc=-1;dr<=1;dc++){
+            if(dc==0 || dr==0)continue;//skipping the main cell around which we are looking for 8 live cells
+            int nr=r+dr;// row index of surrounding cell
+            int nc=c+dr;//column index of surrounding cell
+
+            if(nr>=0 && nr<N && nc>=0){// making sure the nieghbours dont overflow outside the grid bounderies ,if not count it 
+                if(grid[nr][nc]==1)count ++;
+            }
+        }
+    }
+    return count++;
+}
+
 
