@@ -13,9 +13,10 @@ int** allocateGrind(int N){
 // freeing 2D arry memory using double pointers(int**)
 void freeGrid(int **grid,int N){
     if(grid==NULL) return;
-    for(int i=0;i<N;i++){//freeing starting element of each row which are actually (pointer in array) for the strings , char arrays
+    for(int i=0; i<N;i++){//freeing starting element of each row which are actually (pointer in array) for the strings , char arrays
         free(grid[i]);
     }
+    free(grid);
 }
 // lets count the 8 cnnected live surrounding neighbour cells
 int countLiveNeighbours(int **grid,int N,int r,int c){
@@ -86,5 +87,41 @@ int main(int argc, char *argv[]){
     fclose(file);
     printGrid(curr_grid,N,0);
 
+// now we implement the simulation loop over G generations
+for(int gen=1;gen<=G;gen++){
+    for(int r=0;r<N;r++){
+        for(int c=0;c<N;c++){
+            int neigbours=countLiveNeighbours(curr_grid,N,r,c);
+        
+            if(curr_grid[r][c]==1){
+                //overpopulation (>3) or underpopulation (<2)
+                if(neigbours<2 || neigbours>3){
+                    next_grid[r][c]=0;
+                }else {
+                    next_grid[r][c]=1; //survival for 2 or 3
+                }
+            }
+            else{//Reproduction for exactly 3
+                if(neigbours==3){
+                    next_grid[r][c]=1;
+                }else{
+                    next_grid[r][c]=0;
+                }
+                    
+            }
+        }
+    }
+} // now swap the next grid (overwrite)it onto the current grid and create next grid and repeat
+int **temp=curr_grid;
+curr_grid=next_grid;
+next_grid=temp;
 
+printGrid(curr_grid,N,G);
+
+// Simply free the two grids so the swapping can happening for the 2 generation and more if start from 0th generation
+freeGrid(curr_grid,N);
+freeGrid(next_grid,N);
+
+return 0;
 }
+
