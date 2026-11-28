@@ -3,10 +3,21 @@
 
 // allocating a N x N grid dynamically using double pointers(int **)
 int** allocateGrind(int N){
-    int** grid=(int **)malloc(N*sizeof(int *));
+    int** grid=(int **)calloc(N,sizeof(int *));
     if(grid==NULL){
         fprintf(stderr,"Error:Memory Allocations failed for row pointers.\n");
         exit(1);
+    }
+    for(int i=0;i<N;i++){
+        grid[i]=(int *)calloc(N,sizeof(int));
+        if(grid[i]==NULL){
+            fprintf(stderr,"Error:Memory Allocation failed for grid row.\n");
+            for(int j=0;j<i;j++){
+                free(grid[j]);
+            }
+            free(grid);
+            exit(1);
+        }
     }
     return grid;
 }
@@ -22,17 +33,17 @@ void freeGrid(int **grid,int N){
 int countLiveNeighbours(int **grid,int N,int r,int c){
     int count=0;
     for(int dr=-1;dr<=1;dr++){
-        for(int dc=-1;dr<=1;dc++){
-            if(dc==0 || dr==0)continue;//skipping the main cell around which we are looking for 8 live cells
+        for(int dc=-1;dc<=1;dc++){
+            if(dc==0 && dr==0)continue;//skipping the main cell around which we are looking for 8 live cells
             int nr=r+dr;// row index of surrounding cell
-            int nc=c+dr;//column index of surrounding cell
+            int nc=c+dc;//column index of surrounding cell
 
-            if(nr>=0 && nr<N && nc>=0){// making sure the nieghbours dont overflow outside the grid bounderies ,if not count it 
+            if(nr>=0 && nr<N && nc>=0 && nc<N){// making sure the nieghbours dont overflow outside the grid bounderies ,if not count it 
                 if(grid[nr][nc]==1)count ++;
             }
         }
     }
-    return count++;
+    return count;
 }
 /* after all the functionality and validations now it is time to print the grid 
 according to the required number of generations. the parameters are gonna be the
@@ -54,7 +65,7 @@ int main(int argc, char *argv[]){
     //Requiremnt 1:command line validation (argc==2)
     if(argc!=2){
         fprintf(stderr,"Error:Missing Input Filename\n");
-        fprintf(stderr,"Usage: %S <input_filename>\n",argv);
+        fprintf(stderr,"Usage: %s <input_filename>\n",argv[0]);
         return 1;
     }
     FILE *file=fopen(argv[1],"r");
@@ -66,6 +77,11 @@ int main(int argc, char *argv[]){
     int N,G;
     if(fscanf(file,"%d %d",&N,&G)!= 2){
         fprintf(stderr, "error unable to read N and G \n");
+        fclose(file);
+        return 1;
+    }
+    if(N<=0 || G<0){
+        fprintf(stderr,"Error: N must be positive and G must be non-negative.\n");
         fclose(file);
         return 1;
     }
@@ -111,12 +127,13 @@ for(int gen=1;gen<=G;gen++){
             }
         }
     }
-} // now swap the next grid (overwrite)it onto the current grid and create next grid and repeat
-int **temp=curr_grid;
-curr_grid=next_grid;
-next_grid=temp;
+    // swap grids after each generation so the next generation uses this result
+    int **temp=curr_grid;
+    curr_grid=next_grid;
+    next_grid=temp;
 
-printGrid(curr_grid,N,G);
+    printGrid(curr_grid,N,gen);
+}
 
 // Simply free the two grids so the swapping can happening for the 2 generation and more if start from 0th generation
 freeGrid(curr_grid,N);
