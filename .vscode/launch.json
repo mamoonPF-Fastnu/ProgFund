@@ -1,7 +1,6 @@
 {
   "version": "0.2.0",
   "configurations": [
-    
     {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
@@ -9,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/Maria/OneDrive/Desktop/OneDrive/Documents/FAST ASSIGNMENTS/GIT HUB mamoonFast-nu/Assignments/ProgFund/Assignment 02/Question 01",
-      "program": "c:/Users/Maria/OneDrive/Desktop/OneDrive/Documents/FAST ASSIGNMENTS/GIT HUB mamoonFast-nu/Assignments/ProgFund/Assignment 02/Question 01/build/Debug/outDebug",
+      "cwd": "c:/Users/Maria/OneDrive/Desktop/OneDrive/Documents/FAST ASSIGNMENTS/GIT HUB mamoonFast-nu/Assignments/ProgFund/Assignment 03/Question 1/Covey's Game of Life/Source Code",
+      "program": "c:/Users/Maria/OneDrive/Desktop/OneDrive/Documents/FAST ASSIGNMENTS/GIT HUB mamoonFast-nu/Assignments/ProgFund/Assignment 03/Question 1/Covey's Game of Life/Source Code/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
