@@ -33,5 +33,58 @@ int countLiveNeighbours(int **grid,int N,int r,int c){
     }
     return count++;
 }
+/* after all the functionality and validations now it is time to print the grid 
+according to the required number of generations. the parameters are gonna be the
+ grid, N (the size of grid) and finally the number of generations required*/
+void printGrid(int **grid,int N,int generations){
+    printf("Generation %d \n",generations); 
+    for(int i =0;i<N;i++){
+        for(int j=0;j<N;j++){
+            printf("%d ",grid[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+/* Now the main function where passing value using command line using int argc 
+and char *argv and also checking for command line validation.Argc counts arguements,
+while char *argv is an pointer array containing pointer to each arguement as*/
+int main(int argc, char *argv[]){
+    //Requiremnt 1:command line validation (argc==2)
+    if(argc!=2){
+        fprintf(stderr,"Error:Missing Input Filename\n");
+        fprintf(stderr,"Usage: %S <input_filename>\n",argv);
+        return 1;
+    }
+    FILE *file=fopen(argv[1],"r");
+    if(file==NULL){
+        fprintf(stderr,"Error: could not open file '%s'\n",argv[1]);
+        return 1;
+    }
+
+    int N,G;
+    if(fscanf(file,"%d %d",&N,&G)!= 2){
+        fprintf(stderr, "error unable to read N and G \n");
+        fclose(file);
+        return 1;
+    }
+    // Now locally call function to dynamically allocate grid (int**) for n gerneration
+    int **curr_grid=allocateGrind(N);
+    int **next_grid=allocateGrind(N);
+    //reading grid values from file
+    for(int i=0;i<N;i++){
+        for(int j=0;j<N;j++){
+            if(fscanf(file,"%d",&curr_grid[i][j])!=1){
+                fprintf(stderr,"Error reading grid at [%d][%d]\n",i,j);
+                freeGrid(curr_grid,N);
+                freeGrid(next_grid,N);
+                fclose(file);
+                return 1;
+            }
+        }
+    }
+    fclose(file);
+    printGrid(curr_grid,N,0);
 
 
+}
